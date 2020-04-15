@@ -1,8 +1,12 @@
 <?php
 
-/*
- * You can place your custom package configuration in here.
- */
 return [
+
+    'routes' => [
+        'prefix' => 'admin',
+        'middlewares' => ['web', 'auth', 'xacl']
+    ],
+
+    'user_model_path' => '\App\Models\User'
 
 ];

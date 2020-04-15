@@ -15,9 +15,9 @@ class XACLServiceProvider extends ServiceProvider
          * Optional methods to load your package assets
          */
         // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'xacl');
-        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'xacl');
-        // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        // $this->loadRoutesFrom(__DIR__.'/routes.php');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'xacl');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->loadRoutesFrom(__DIR__.'/routes.php');
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
@@ -25,14 +25,14 @@ class XACLServiceProvider extends ServiceProvider
             ], 'config');
 
             // Publishing the views.
-            /*$this->publishes([
+            $this->publishes([
                 __DIR__.'/../resources/views' => resource_path('views/vendor/xacl'),
-            ], 'views');*/
+            ], 'views');
 
             // Publishing assets.
-            /*$this->publishes([
+            $this->publishes([
                 __DIR__.'/../resources/assets' => public_path('vendor/xacl'),
-            ], 'assets');*/
+            ], 'assets');
 
             // Publishing the translation files.
             /*$this->publishes([
