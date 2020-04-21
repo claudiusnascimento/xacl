@@ -14,6 +14,11 @@ composer require claudiusnascimento/xacl
 Soon...
 ```
 
+## TO DO
+[ ] Accept \_\_invokable method
+[ ] Accept Closures
+[ ] Beatify the methods labels when dont exist docs or @xacl
+ 
 ### Testing
 
 ``` bash

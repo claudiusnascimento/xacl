@@ -12,8 +12,8 @@ class CreateXaclGroupsTable extends Migration {
             $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->text('description')->nullable();
-            $table->string('image');
-            $table->text('options');
+            $table->string('image')->nullable();
+            $table->text('options')->nullable();
             $table->boolean('active')->default(false);
 			$table->timestamps();
 		});

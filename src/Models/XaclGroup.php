@@ -1,14 +1,23 @@
 <?php
 
-namespace App;
+namespace ClaudiusNascimento\XACL\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class XaclGroups extends Model
+class XaclGroup extends Model
 {
 
     protected $table = 'xacl_groups';
     public $timestamps = true;
+
+    protected $fillable = [
+        'name',
+        'slug',
+        'description',
+        'image',
+        'options',
+        'active'
+    ];
 
     public function users()
     {
