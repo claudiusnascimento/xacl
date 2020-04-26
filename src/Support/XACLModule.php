@@ -30,6 +30,19 @@ class XACLModule
         $this->methods = [];
     }
 
+    public function slug() {
+
+        $r = '/\\\\/';
+
+        $str = preg_replace($r, '-', $this->getNameSpaceName()) . '-' . $this->getClassName();
+
+        return \Str::slug($str);
+    }
+
+    public function link() {
+        return route('xacl.module', $this->slug());
+    }
+
     public function addMethod($method)
     {
         if(!is_string($method)) throw new \Exception("A method must be of type string", 1);

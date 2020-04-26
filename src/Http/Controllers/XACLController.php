@@ -30,6 +30,13 @@ class XACLController extends BaseController
         return view('xacl::index', compact('modules'));
     }
 
+    /**
+     *  @xacl Acl Módulo
+     */
+    public function module() {
+
+    }
+
     public function groups()
     {
         $groups = Group::all();
