@@ -27,7 +27,9 @@ class XACLController extends BaseController
 
         $modules = $modules->getModules();
 
-        return view('xacl::index', compact('modules'));
+        $groups = Group::all();
+
+        return view('xacl::index', compact('modules', 'groups'));
     }
 
     /**

@@ -11,38 +11,86 @@
 
                     <div class="x_body">
 
-                        @foreach($modules->chunk(2) as $row)
+                        <form action="" class="xacl-form">
 
-                            <div class="row">
+                            @php
 
-                                @foreach($row as $module)
+                                $countGroups = $groups->count();
 
-                                    <div class="col-sm-6">
-                                        <div class="xacl-module-box">
-                                            <div class="xacl-module-box__header">
-                                                <small>{{ $module->getNameSpaceName() }}</small>
-                                            </div>
-                                            <div class="xacl-module-box__body">
+                                $collumnWidth = (string)(80 / $countGroups) . '%';
 
-                                                <h3 style="margin-top: 5px;">{{ $module->getDoc('class') }}</h3>
+                            @endphp
 
-                                                <ul>
-                                                    @foreach($module->getMethods() as $method)
-                                                        <li>{{ $module->getDoc($method) }}</li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                            <div class="xacl-module-box__footer">
-                                                <a href="{{ $module->link() }}">Administrar</a>
-                                            </div>
-                                        </div>
+                            @foreach($modules as $module)
+
+                                <div class="module-item">
+
+                                    <div class="alert alert-info">
+                                        <h4>
+                                            {{ $module->getDoc('class') }}
+                                            <small>{{ $module->getNameSpaceName() }}</small>
+                                        </h4>
+
                                     </div>
 
-                                @endforeach
+                                    <div class="table-responsive">
 
-                            </div>
+                                        <table class="table table-bordered table-hover table-striped">
 
-                        @endforeach
+                                            <thead>
+                                                <tr>
+                                                    <th width="20%"></th>
+                                                    @foreach($groups as $group)
+
+                                                        <th width="{{ $collumnWidth }}">
+
+                                                            <span>{{ $group->name }}</span>
+
+                                                            <button
+                                                                style="display: inline-block;"
+                                                                class="btn btn-success btn-select-all-xacl select-all"
+                                                                data-id="{{ $group->id }}">&nbsp</button>
+
+                                                            <button
+                                                                style="display: inline-block;"
+                                                                class="btn btn-danger btn-select-all-xacl unselect-all"
+                                                                data-id="{{ $group->id }}">&nbsp</button>
+                                                        </th>
+
+                                                    @endforeach
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                @foreach($module->getMethods() as $method)
+
+                                                    <tr>
+
+                                                        <td width="20%">{{ $module->getDoc($method) }}</td>
+
+                                                        @foreach($groups as $group)
+                                                            <td width="{{ $collumnWidth }}">
+                                                                <input
+                                                                    type="checkbox"
+                                                                    name="permissions[]"
+                                                                    value="gid|{{ $group->id . '|' . $module->class . '@' . $method }}"
+                                                                    class="gid-{{ $group->id }}">
+                                                            </td>
+                                                        @endforeach
+
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+
+                            @endforeach
+
+
+
+                        </form>
 
                     </div>
                 </div>
