@@ -25,7 +25,7 @@ class XACLController extends BaseController
      */
     public function index()
     {
-
+        // dd(Module::with('groups')->get());
         // pegar todos os mudules
         $modules = new XACLModulesCollection(XACL::getXACLRoutes());
 
@@ -42,25 +42,35 @@ class XACLController extends BaseController
     public function store(Request $request)
     {
 
+        $request->validate(());
         DB::beginTransaction();
 
         $saved = false;
+        $count = 0;
 
         try {
 
-            Group::query()->delete();
-            Module::query()->delete();
+            //Group::query()->delete();
             DB::table('xacl_group_module')->delete();
+            Module::query()->delete();
 
-            foreach($request->get('permissions', []) as $permission) {
+            $permissions = $request->get('permissions', []);
+            $countPermissions = count($permissions);
 
-                $arr_permission = $this->getObj($permission);
+            foreach($permissions as $permission) {
+
+                $arr_permission = $this->getGroupIdAndModule($permission);
 
                 if(is_array($arr_permission)) {
-                    $module = Module::firstOrCreate(['controller_action' => $arr_permission['module']]);
-                    $module->groups()->sync([$arr_permission['group_id']]);
 
-                    $saved = true;
+                    $module = Module::firstOrCreate(['controller_action' => $arr_permission['module']]);
+
+                    if($module) {
+                        $module->groups()->attach([$arr_permission['group_id']]);
+                        $saved = true;
+                        $count++;
+                    }
+
                 }
             }
 
@@ -78,10 +88,21 @@ class XACLController extends BaseController
         }
 
         // at least 1 was saved
-        if($saved) {
+        if($saved && $count == $countPermissions) {
             DB::commit();
+
+            $type = 'success';
+            $message = 'Permissões setadas com sucesso';
         } else {
             DB::rollBack();
+
+            \Log::info('$saved');
+            \Log::info($saved);
+            \Log::info('Count e CountPermissions');
+            \Log::info($count . ' - ' . $countPermissions);
+
+            $type = 'info';
+            $message = 'Nenhuma permissão salva';
         }
 
 
@@ -93,7 +114,7 @@ class XACLController extends BaseController
         return redirect()->back();
     }
 
-    private function getObj($permission) {
+    private function getGroupIdAndModule($permission) {
 
         $pattern = '/^gid\|(\d+)\|([\\\\a-zA-Z0-9_]+@[\\\\a-zA-Z0-9_]+)$/';
 

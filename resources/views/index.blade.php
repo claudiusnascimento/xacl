@@ -42,8 +42,8 @@
                                     <div class="alert alert-info">
                                         <h4>
                                             {{ $module->getDoc('class') }}
-                                            <small>{{ $module->getNameSpaceName() }}</small>
                                         </h4>
+                                        <small>{{ $module->getNameSpaceName() }}</small>
 
                                     </div>
 
