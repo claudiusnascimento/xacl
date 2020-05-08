@@ -40,13 +40,7 @@
 
                         <h3>Cadastrar novo grupo</h3>
 
-                        @if(session()->has('xacl.alert'))
-                            <br>
-                            <div class="alert alert-{{ session()->get('xacl.alert')['type'] }}">
-                                {{ session()->get('xacl.alert')['message'] }}
-                            </div>
-                            <br>
-                        @endif
+                        @include('xacl::messages')
 
                         <form
                             action="{{ route('xacl.groups.store') }}"
@@ -59,8 +53,9 @@
                                 <label for="name">Nome do grupo</label>
                                 <input type="text" name="name" value="{{ old('name') }}" class="form-control">
 
-                                @if($errors->group->any())
-                                    <div class="validator-error"><small>{{ $errors->group->get('name')[0] }}</small></div>
+
+                                @if($errors->group->has('name'))
+                                    <div class="validator-error"><small>{{ $errors->group->first('name') }}</small></div>
                                 @endif
 
                             </div>
@@ -68,6 +63,11 @@
                             <div class="form-group">
                                 <label for="description">Descrição do grupo</label>
                                 <textarea type="text" name="description" class="form-control">{{ old('description') }}</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="order">Ordem</label>
+                                <input style="width: 50px;" type="text" name="order" value="{{ old('order') }}" class="form-control">
                             </div>
 
                             <div class="checkbox">

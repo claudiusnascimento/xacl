@@ -7,7 +7,11 @@ use Illuminate\Http\Request;
 
 use ClaudiusNascimento\XACL\Support\XACLModulesCollection;
 use ClaudiusNascimento\XACL\Models\XaclGroup as Group;
+use ClaudiusNascimento\XACL\Models\XaclModule as Module;
+
 use XACL;
+
+use DB;
 
 use Exception;
 
@@ -33,45 +37,74 @@ class XACLController extends BaseController
     }
 
     /**
-     *  @xacl Acl Módulo
+     * @xacl Acl Controller Salvar
      */
-    public function module() {
-
-    }
-
-    public function groups()
+    public function store(Request $request)
     {
-        $groups = Group::all();
 
-        return view('xacl::groups', compact('groups'));
-    }
+        DB::beginTransaction();
 
-    /**
-     * @xacl Cadastrar grupo no XACL
-     */
-    public function storeGroup(Request $request) {
+        $saved = false;
 
-        $request->validateWithBag('group', [
-            'name' => ['required', 'unique:xacl_groups', 'max:100']
-        ],[
-            'name.required' => 'O nome do grupo é obrigatório',
-            'name.unique' => 'Nome já existe',
-            'name.max' => 'Nome pode ter no máximo 100 caracteres'
-        ]);
+        try {
 
-        $request->merge([
-                            'slug' => \Str::slug($request->get('name')),
-                            'active' => $request->has('active')
-                        ]);
+            Group::query()->delete();
+            Module::query()->delete();
+            DB::table('xacl_group_module')->delete();
 
-        $group = Group::create($request->all());
+            foreach($request->get('permissions', []) as $permission) {
+
+                $arr_permission = $this->getObj($permission);
+
+                if(is_array($arr_permission)) {
+                    $module = Module::firstOrCreate(['controller_action' => $arr_permission['module']]);
+                    $module->groups()->sync([$arr_permission['group_id']]);
+
+                    $saved = true;
+                }
+            }
+
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            $request->session()->flash('xacl.alert', [
+                'type' => 'danger',
+                'message' => 'Erro ao salvar as permissões'
+            ]);
+
+            \Log::info($e->getMessage());
+
+            return redirect()->back();
+        }
+
+        // at least 1 was saved
+        if($saved) {
+            DB::commit();
+        } else {
+            DB::rollBack();
+        }
+
 
         $request->session()->flash('xacl.alert', [
-            'type' => 'success',
-            'message' => 'Grupo '. $group->name .' cadastrado com sucesso'
+            'type' => $saved ? 'success' : 'info',
+            'message' => $saved ? 'Permissões setadas com sucesso' : 'Nenhuma permissão salva'
         ]);
 
         return redirect()->back();
+    }
+
+    private function getObj($permission) {
+
+        $pattern = '/^gid\|(\d+)\|([\\\\a-zA-Z0-9_]+@[\\\\a-zA-Z0-9_]+)$/';
+
+        if(preg_match($pattern, $permission, $match)) {
+            return [
+                'group_id' => $match[1],
+                'module' => $match[2]
+            ];
+        }
+
+        return false;
     }
 
 }

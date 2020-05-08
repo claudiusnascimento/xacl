@@ -16,22 +16,25 @@ class XaclGroup extends Model
         'description',
         'image',
         'options',
-        'active'
+        'active',
+        'order'
     ];
 
     public function users()
     {
-        return $this->belongsToMany(app()->make(config('xacl.user_model_path')));
+        $userClass = config('xacl.user_model.path', 'App\Models\User');
+
+        return $this->belongsToMany($userClass, 'xacl_group_user', 'group_id', 'user_id');
     }
 
-    public function permissions()
+    public function modules()
     {
-        return $this->belongsToMany('XaclPermissions');
+        return $this->belongsToMany(XaclModule::class, 'xacl_group_module', 'group_id', 'module_id');
     }
 
-    public function actions()
+    public function views()
     {
-        return $this->belongsToMany('XaclActions');
+        return $this->belongsToMany(XaclView::class, 'xacl_group_view', 'group_id', 'view_id');
     }
 
 }

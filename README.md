@@ -18,6 +18,7 @@ Soon...
 [ ] Accept \_\_invokable method
 [ ] Accept Closures
 [ ] Beatify the methods labels when dont exist docs or @xacl
+[ ] When the route is created but not the method in controller appears blank on view
  
 ### Testing
 

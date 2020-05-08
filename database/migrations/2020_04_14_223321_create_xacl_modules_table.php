@@ -3,11 +3,11 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateXaclPermissionsTable extends Migration {
+class CreateXaclModulesTable extends Migration {
 
 	public function up()
 	{
-		Schema::create('xacl_permissions', function(Blueprint $table) {
+		Schema::create('xacl_modules', function(Blueprint $table) {
 			$table->increments('id');
             $table->string('controller_action');
 			$table->timestamps();
@@ -16,6 +16,6 @@ class CreateXaclPermissionsTable extends Migration {
 
 	public function down()
 	{
-		Schema::drop('xacl_permissions');
+		Schema::drop('xacl_modules');
 	}
 }

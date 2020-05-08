@@ -7,7 +7,11 @@ return [
         'middlewares' => ['web', 'auth', 'xacl']
     ],
 
-    'user_model_path' => '\App\Models\User',
+    'user_model' => [
+        'path' => 'App\Models\User',
+        'foreign_key' => 'id',
+        'table_name' => 'users'
+    ],
 
     'docs_defaults' => [
 

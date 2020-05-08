@@ -1,4 +1,4 @@
-<?php
+2<?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,6 +15,7 @@ class CreateXaclGroupsTable extends Migration {
             $table->string('image')->nullable();
             $table->text('options')->nullable();
             $table->boolean('active')->default(false);
+            $table->integer('order')->default(0);
 			$table->timestamps();
 		});
 	}

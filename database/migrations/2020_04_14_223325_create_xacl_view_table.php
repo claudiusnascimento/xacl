@@ -7,7 +7,7 @@ class CreateXaclViewTable extends Migration {
 
 	public function up()
 	{
-		Schema::create('xacl_view', function(Blueprint $table) {
+		Schema::create('xacl_views', function(Blueprint $table) {
 			$table->increments('id');
             $table->string('action');
 			$table->timestamps();
@@ -16,6 +16,6 @@ class CreateXaclViewTable extends Migration {
 
 	public function down()
 	{
-		Schema::drop('xacl_view');
+		Schema::drop('xacl_views');
 	}
 }

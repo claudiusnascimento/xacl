@@ -11,15 +11,29 @@
 
                     <div class="x_body">
 
-                        <form action="" class="xacl-form">
+                        @include('xacl::messages')
+
+                        <form action="{!! route('xacl.store') !!}" method="POST" class="xacl-form">
+
+                            @csrf
 
                             @php
 
                                 $countGroups = $groups->count();
+                                if($countGroups < 1) $countGroups = 1;
 
                                 $collumnWidth = (string)(80 / $countGroups) . '%';
 
                             @endphp
+
+                            @if($groups->isEmpty())
+                                <div class="alert alert-danger">
+                                    Nenhum grupo cadastrado!
+                                    <a style="color: #fff;" href="{{ route('xacl.groups') }}">
+                                        <b>Cadastre aqui</b>
+                                    </a>
+                                </div>
+                            @endif
 
                             @foreach($modules as $module)
 
@@ -88,7 +102,9 @@
 
                             @endforeach
 
-
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success">Salvar</button>
+                            </div>
 
                         </form>
 
