@@ -42,7 +42,8 @@ class XACLController extends BaseController
     public function store(Request $request)
     {
 
-        $request->validate(());
+        $groupsCollection = Group::select('id')->pluck('id');
+
         DB::beginTransaction();
 
         $saved = false;
@@ -57,18 +58,35 @@ class XACLController extends BaseController
             $permissions = $request->get('permissions', []);
             $countPermissions = count($permissions);
 
+            $stored = [];
+
             foreach($permissions as $permission) {
 
                 $arr_permission = $this->getGroupIdAndModule($permission);
 
                 if(is_array($arr_permission)) {
 
-                    $module = Module::firstOrCreate(['controller_action' => $arr_permission['module']]);
+                    $group_id = $arr_permission['group_id'];
+                    $module = $arr_permission['module'];
+
+                    // module exists?
+                    if(!$groupsCollection->contains($group_id)) {
+                        continue;
+                    }
+
+                    // already stored?
+                    if(in_array($permission, $stored)) {
+                        continue;
+                    }
+
+                    $module = Module::firstOrCreate(['controller_action' => $module]);
 
                     if($module) {
-                        $module->groups()->attach([$arr_permission['group_id']]);
+                        $module->groups()->attach([$group_id]);
                         $saved = true;
                         $count++;
+
+                        $stored[] = $permission;
                     }
 
                 }
