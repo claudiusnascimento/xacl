@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 use ClaudiusNascimento\XACL\Models\XaclGroup as Group;
 
+use DB;
+
 /**
  * @xacl ACL Controle de Grupos
  */
@@ -48,6 +50,50 @@ class XACLGroupsController extends BaseController
         ]);
 
         return redirect()->back();
+    }
+
+    /**
+     * @xacl ACL Deletar Grupo
+     */
+    public function delete($id) {
+
+        $group = Group::find($id);
+
+        if(!$group) {
+
+            \XACL::message('Grupo não encontrado', 'type');
+
+            return redirect()->back();
+        }
+
+        DB::beginTransaction();
+
+        $name = $group->name;
+
+        try {
+
+            DB::table('xacl_group_module')->where('group_id', $id)->delete();
+
+            $group->delete();
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            \Log::info('XACL::ERROR::DELETING::GROUP');
+            \Log::info($e->getTraceAsString());
+
+            \XACL::message('Erro ao deletar grupo', 'danger');
+
+            return redirect()->back();
+        }
+
+        DB::commit();
+
+        \XACL::message('Grupo '. $name .' deletado com sucesso', 'success');
+
+        return redirect()->back();
+
     }
 
 }

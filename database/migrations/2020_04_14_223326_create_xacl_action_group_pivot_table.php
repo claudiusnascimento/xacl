@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateXaclGroupViewPivotTable extends Migration
+class CreateXaclActionGroupPivotTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,13 @@ class CreateXaclGroupViewPivotTable extends Migration
      */
     public function up()
     {
-        Schema::create('xacl_group_view', function (Blueprint $table) {
+        Schema::create('xacl_action_group', function (Blueprint $table) {
+            $table->integer('action_id')->unsigned()->index();
+            $table->foreign('action_id')->references('id')->on('xacl_actions');
             $table->integer('group_id')->unsigned()->index();
             $table->foreign('group_id')->references('id')->on('xacl_groups');
-            $table->integer('view_id')->unsigned()->index();
-            $table->foreign('view_id')->references('id')->on('xacl_views');
-            $table->primary(['group_id', 'view_id']);
+
+            $table->primary(['action_id', 'group_id']);
         });
     }
 
@@ -28,6 +29,6 @@ class CreateXaclGroupViewPivotTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('xacl_group_view');
+        Schema::dropIfExists('xacl_action_group');
     }
 }

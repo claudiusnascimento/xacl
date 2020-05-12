@@ -25,13 +25,13 @@ class XACLController extends BaseController
      */
     public function index()
     {
-        // dd(Module::with('groups')->get());
-        // pegar todos os mudules
         $modules = new XACLModulesCollection(XACL::getXACLRoutes());
 
         $modules = $modules->getModules();
 
-        $groups = Group::all();
+        $groups = Group::with(['modules' => function($q) {
+            $q->select('id', 'controller_action');
+        }])->get(['id', 'name', 'slug', 'description']);
 
         return view('xacl::index', compact('modules', 'groups'));
     }
@@ -95,10 +95,7 @@ class XACLController extends BaseController
         } catch (Exception $e) {
             DB::rollBack();
 
-            $request->session()->flash('xacl.alert', [
-                'type' => 'danger',
-                'message' => 'Erro ao salvar as permissões'
-            ]);
+            \XACL::message('Erro ao salvar as permissões', 'danger');
 
             \Log::info($e->getMessage());
 
@@ -123,11 +120,10 @@ class XACLController extends BaseController
             $message = 'Nenhuma permissão salva';
         }
 
+        $type = $saved ? 'success' : 'info';
+        $message = $saved ? 'Permissões setadas com sucesso' : 'Nenhuma permissão salva';
 
-        $request->session()->flash('xacl.alert', [
-            'type' => $saved ? 'success' : 'info',
-            'message' => $saved ? 'Permissões setadas com sucesso' : 'Nenhuma permissão salva'
-        ]);
+        \XACL::message($message, $type);
 
         return redirect()->back();
     }

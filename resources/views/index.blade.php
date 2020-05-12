@@ -76,6 +76,7 @@
                                             </thead>
 
                                             <tbody>
+
                                                 @foreach($module->getMethods() as $method)
 
                                                     <tr>
@@ -87,8 +88,9 @@
                                                                 <input
                                                                     type="checkbox"
                                                                     name="permissions[]"
-                                                                    value="gid|{{ $group->id . '|' . $module->class . '@' . $method }}"
-                                                                    class="gid-{{ $group->id }}">
+                                                                    value="{{ \XACL::getInputvalue($group, $module, $method) }}"
+                                                                    class="gid-{{ $group->id }}"
+                                                                    {{ \XACL::getChecked($group, $module, $method) }}>
                                                             </td>
                                                         @endforeach
 

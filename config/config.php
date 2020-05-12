@@ -10,7 +10,8 @@ return [
     'user_model' => [
         'path' => 'App\Models\User',
         'foreign_key' => 'id',
-        'table_name' => 'users'
+        'table_name' => 'users',
+        'user_type_field' => 'bigInteger'
     ],
 
     'docs_defaults' => [

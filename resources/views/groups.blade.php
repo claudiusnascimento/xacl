@@ -9,6 +9,8 @@
             <div class="x_panel">
                 <div class="x_content">
 
+                    @include('xacl::messages')
+
                     <div class="x_body">
 
                         @foreach($groups as $group)
@@ -19,6 +21,15 @@
                                 <div class="div">
                                     <h5>{{ $group->active ? 'ATIVADO' : 'DESATIVADO' }}</h5>
                                 </div>
+
+                                <form
+                                    action="{{ route('xacl.groups.delete', $group->id) }}"
+                                    enctype="multipart/form-data"
+                                    method="POST">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="btn btn-danger btn-delete-group">Deletar grupo</button>
+                                </form>
+                                <br>
                             </div>
 
                         @endforeach
@@ -39,8 +50,6 @@
                     <div class="x_body">
 
                         <h3>Cadastrar novo grupo</h3>
-
-                        @include('xacl::messages')
 
                         <form
                             action="{{ route('xacl.groups.store') }}"

@@ -13,11 +13,11 @@ class CreateXaclGroupModulePivotTable extends Migration
     public function up()
     {
         Schema::create('xacl_group_module', function (Blueprint $table) {
-            $table->integer('module_id')->unsigned()->index();
-            $table->foreign('module_id')->references('id')->on('xacl_modules');
             $table->integer('group_id')->unsigned()->index();
             $table->foreign('group_id')->references('id')->on('xacl_groups');
-            $table->primary(['module_id', 'group_id']);
+            $table->integer('module_id')->unsigned()->index();
+            $table->foreign('module_id')->references('id')->on('xacl_modules');
+            $table->primary(['group_id', 'module_id']);
         });
     }
 

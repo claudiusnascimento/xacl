@@ -22,4 +22,21 @@ class XACL
 
         return Route::getRoutes()->get();
     }
+
+    public static function getInputvalue($group, $module, $method) {
+        return 'gid|' . $group->id . '|' . $module->class . '@' . $method;
+    }
+
+    public static function getChecked($group, $module, $method) {
+
+        return $group->modules->contains('controller_action', $module->class . '@' . $method) ?
+        ' checked' : '';
+    }
+
+    public static function message($message, $type = 'success') {
+        session()->flash('xacl.alert', [
+            'type' => $type,
+            'message' => $message
+        ]);
+    }
 }
