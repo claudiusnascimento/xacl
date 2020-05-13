@@ -2,6 +2,8 @@
 
 return [
 
+    'start_email' => 'cau@claudiusnascimento.com',
+
     'routes' => [
         'prefix' => 'admin',
         'middlewares' => ['web', 'auth', 'xacl']
@@ -11,7 +13,8 @@ return [
         'path' => 'App\Models\User',
         'foreign_key' => 'id',
         'table_name' => 'users',
-        'user_type_field' => 'bigInteger'
+        'user_type_field' => 'bigInteger',
+        'paginate' => 5
     ],
 
     'docs_defaults' => [

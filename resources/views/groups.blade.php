@@ -15,7 +15,7 @@
 
                         @foreach($groups as $group)
 
-                            <div class="box-group">
+                            <div class="box-group clearfix">
                                 <h3>{{ $group->name }}</h3>
                                 <p>{{ empty(trim(strip_tags($group->description))) ? 'Sem descrição' : $group->description }}</p>
                                 <div class="div">
@@ -23,12 +23,15 @@
                                 </div>
 
                                 <form
+                                    class="delete-group-form pull-left"
                                     action="{{ route('xacl.groups.delete', $group->id) }}"
                                     enctype="multipart/form-data"
                                     method="POST">
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                    <button type="submit" class="btn btn-danger btn-delete-group">Deletar grupo</button>
+                                    <button type="submit" class="btn btn-danger md btn-delete-group">Deletar grupo</button>
                                 </form>
+
+                                <a href="{{ route('xacl.groups.edit', $group->id) }}" class="btn btn-success md">Editar grupo</a>
                                 <br>
                             </div>
 

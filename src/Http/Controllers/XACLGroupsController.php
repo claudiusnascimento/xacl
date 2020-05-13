@@ -4,6 +4,7 @@ namespace ClaudiusNascimento\XACL\Http\Controllers;
 
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 use ClaudiusNascimento\XACL\Models\XaclGroup as Group;
 
@@ -22,6 +23,39 @@ class XACLGroupsController extends BaseController
         $groups = Group::orderBy('order', 'asc')->orderBy('name', 'asc')->get();
 
         return view('xacl::groups', compact('groups'));
+    }
+
+    public function edit($id) {
+
+        return view('xacl::edit-group')->withGroup(Group::findOrFail($id));
+    }
+
+    public function update(Request $request, $id) {
+
+        $group = Group::findOrFail($id);
+
+        $request->validateWithBag('group', [
+            'name' => [
+                'required',
+                Rule::unique('xacl_groups')->ignore($group),
+                'max:100'
+            ]
+        ],[
+            'name.required' => 'O nome do grupo é obrigatório',
+            'name.unique' => 'Nome já existe',
+            'name.max' => 'Nome pode ter no máximo 100 caracteres'
+        ]);
+
+        $request->merge([
+                        'slug' => \Str::slug($request->get('name')),
+                        'active' => $request->has('active')
+                    ]);
+
+        $group->update($request->all());
+
+        \XACL::message('Grupo '. $group->name .' atualizado com sucesso', 'success');
+
+        return redirect()->back();
     }
 
     /**
@@ -44,10 +78,7 @@ class XACLGroupsController extends BaseController
 
         $group = Group::create($request->all());
 
-        $request->session()->flash('xacl.alert', [
-            'type' => 'success',
-            'message' => 'Grupo '. $group->name .' cadastrado com sucesso'
-        ]);
+        \XACL::message('Grupo '. $group->name .' cadastrado com sucesso', 'success');
 
         return redirect()->back();
     }
