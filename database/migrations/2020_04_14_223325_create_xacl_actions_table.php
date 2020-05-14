@@ -10,9 +10,10 @@ class CreateXaclActionsTable extends Migration {
 		Schema::create('xacl_actions', function(Blueprint $table) {
 			$table->increments('id');
             $table->string('action');
-            $table->text('description');
-            $table->boolean('active')->default(false);
-            $table->text('options');
+            $table->text('description')->nullable();
+            $table->integer('order')->nullable()->default(0);
+            $table->boolean('active')->nullable()->default(false);
+            $table->text('options')->nullable();
 			$table->timestamps();
 		});
 	}

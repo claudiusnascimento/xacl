@@ -16,11 +16,17 @@
                         @endphp
 
                         @include('xacl::messages')
+                        <br>
+                        @include('xacl::errors')
 
                         @foreach($users as $user)
                             <div class="table-responsive" style="overflow-y: hidden;">
 
-                                <form action="#">
+                                <form method="POST" action="{{ route('xacl.users.add.group', $user->id) }}">
+
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <input type="hidden" name="_bag" value="{{ 'user-' . $user->id }}">
+
                                     <table class="table table-striped text-center xacl-users-table">
                                         <thead>
                                             <tr class="headings">
@@ -44,7 +50,7 @@
                                                 </td>
 
                                                 @foreach($groups as $group)
-                                                    <td width="{{ $width }}"><input name="groups[]" type="checkbox"></td>
+                                                    <td width="{{ $width }}"><input name="groups[]" value="{{ $group->id }}" {{ $user->getGroupChecked($group) }} type="checkbox"></td>
                                                 @endforeach
 
                                                 <td width="{{ $width }}">
@@ -56,6 +62,8 @@
                                     </table>
                                 </form>
                             </div>
+
+                            @include('xacl::errors')
 
                             <br>
 

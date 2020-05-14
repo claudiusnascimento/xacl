@@ -61,7 +61,7 @@ class XACLGroupsController extends BaseController
     /**
      * @xacl ACL Cadastrar Grupo
      */
-    public function storeGroup(Request $request) {
+    public function store(Request $request) {
 
         $request->validateWithBag('group', [
             'name' => ['required', 'unique:xacl_groups', 'max:100']
@@ -92,7 +92,7 @@ class XACLGroupsController extends BaseController
 
         if(!$group) {
 
-            \XACL::message('Grupo não encontrado', 'type');
+            \XACL::message('Grupo não encontrado', 'info');
 
             return redirect()->back();
         }

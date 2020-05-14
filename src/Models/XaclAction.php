@@ -4,7 +4,7 @@ namespace ClaudiusNascimento\XACL\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class XaclActions extends Model
+class XaclAction extends Model
 {
 
     protected $table = 'xacl_actions';

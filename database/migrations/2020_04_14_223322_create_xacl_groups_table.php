@@ -15,7 +15,7 @@ class CreateXaclGroupsTable extends Migration {
             $table->string('image')->nullable();
             $table->text('options')->nullable();
             $table->boolean('active')->default(false);
-            $table->integer('order')->default(0);
+            $table->integer('order')->nullable()->default(0);
 			$table->timestamps();
 		});
 	}
