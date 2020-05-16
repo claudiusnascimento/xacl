@@ -22,6 +22,17 @@
                                     <h5>{{ $action->active ? 'ATIVADO' : 'DESATIVADO' }}</h5>
                                 </div>
 
+                                @if($action->groups->isNotEmpty())
+
+                                    <div class="action-groups">
+                                        <span class="label-groups">Grupos: </span>
+                                        @foreach($action->groups as $g)
+                                            <span>{{ $g->name }}</span>&nbsp;
+                                        @endforeach
+                                    </div>
+
+                                @endif
+
                                 <form
                                     class="delete-group-form pull-left"
                                     action="{{ route('xacl.actions.delete', $action->id) }}"
@@ -61,35 +72,55 @@
 
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-                            <div class="form-group">
-                                <label for="action">Nome da ação</label>
-                                <input type="text" name="action" value="{{ old('action') }}" class="form-control">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <div class="form-group">
+                                        <label for="action">Nome da ação</label>
+                                        <input type="text" name="action" value="{{ old('action') }}" class="form-control">
 
+                                        @if($errors->action->has('action'))
+                                            <div class="validator-error"><small>{{ $errors->action->first('action') }}</small></div>
+                                        @endif
 
-                                @if($errors->action->has('action'))
-                                    <div class="validator-error"><small>{{ $errors->action->first('action') }}</small></div>
-                                @endif
+                                    </div>
 
-                            </div>
+                                    <div class="form-group">
+                                        <label for="description">Descrição da ação</label>
+                                        <textarea type="text" name="description" class="form-control">{{ old('description') }}</textarea>
+                                    </div>
 
-                            <div class="form-group">
-                                <label for="description">Descrição da ação</label>
-                                <textarea type="text" name="description" class="form-control">{{ old('description') }}</textarea>
-                            </div>
+                                    <div class="form-group">
+                                        <label for="order">Ordem</label>
+                                        <input style="width: 50px;" type="text" name="order" value="{{ old('order') }}" class="form-control">
+                                    </div>
 
-                            <div class="form-group">
-                                <label for="order">Ordem</label>
-                                <input style="width: 50px;" type="text" name="order" value="{{ old('order') }}" class="form-control">
-                            </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="active" {{ old('active') ? 'checked' : '' }} value="1"> Ativo
+                                        </label>
+                                    </div>
 
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" name="active" {{ old('active') ? 'checked' : '' }} value="1"> Ativo
-                                </label>
-                            </div>
+                                    <div class="form-group text-right">
+                                        <button class="btn btn-success">Salvar</button>
+                                    </div>
 
-                            <div class="form-group text-right">
-                                <button class="btn btn-success">Salvar</button>
+                                </div>
+
+                                <div class="col-xs-4">
+
+                                    <h4><b>Grupos</b></h4>
+
+                                    <ul>
+                                        @foreach($groups as $group)
+                                            <li>
+                                                <label>
+                                                    <input type="checkbox" name="groups[]" value="{{ $group->id }}" {{ in_array($group->id, old('groups', [])) ? ' checked' : '' }}> {{ $group->name }}
+                                                </label>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+
                             </div>
 
                         </form>

@@ -19,6 +19,8 @@ class XACLServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->loadRoutesFrom(__DIR__.'/routes.php');
 
+        $this->registerHelpers();
+
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__.'/../config/config.php' => config_path('xacl.php'),
@@ -41,6 +43,18 @@ class XACLServiceProvider extends ServiceProvider
 
             // Registering package commands.
             // $this->commands([]);
+        }
+    }
+
+    /**
+     * Register helpers file
+     */
+    public function registerHelpers()
+    {
+        // Load the helpers in app/Http/helpers.php
+        if (file_exists($helper = __DIR__ . '/helpers.php'))
+        {
+            require $helper;
         }
     }
 

@@ -1,6 +1,7 @@
 <?php
 
 namespace ClaudiusNascimento\XACL\Traits;
+
 use ClaudiusNascimento\XACL\Models\XaclGroup;
 
 trait XaclGroupUserTrait
@@ -13,4 +14,5 @@ trait XaclGroupUserTrait
     public function getGroupChecked($group) {
         return $this->groups->contains('id', $group->id) ? ' checked ' : '';
     }
+
 }

@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 use ClaudiusNascimento\XACL\Models\XaclAction as Action;
+use ClaudiusNascimento\XACL\Models\XaclGroup as Group;
 
 use DB;
+use Exception;
 
 /**
  * @xacl ACL Controle Ações
@@ -20,9 +22,11 @@ class XACLActionsController extends BaseController
     */
     public function actions()
     {
-        $actions = Action::orderBy('order', 'asc')->orderBy('action', 'asc')->get();
+        $actions = Action::with('groups')->orderBy('order', 'asc')->orderBy('action', 'asc')->get();
 
-        return view('xacl::actions', compact('actions'));
+        $groups = Group::all();
+
+        return view('xacl::actions', compact('actions', 'groups'));
     }
 
     /**
@@ -30,7 +34,9 @@ class XACLActionsController extends BaseController
     */
     public function edit($id) {
 
-        return view('xacl::edit-action')->withAction(Action::findOrFail($id));
+        return view('xacl::edit-action')
+            ->withGroups(Group::all())
+            ->withAction(Action::with('groups')->findOrFail($id));
     }
 
     /**
@@ -46,19 +52,44 @@ class XACLActionsController extends BaseController
                 'regex:/^[-a-zA-Z]+$/',
                 Rule::unique('xacl_actions')->ignore($action),
                 'max:100'
+            ],
+            'groups' => [
+                'array',
+                Rule::exists('xacl_groups', 'id')
             ]
         ],[
             'action.required' => 'A ação é obrigatória',
             'action.regex' => 'Ação só é permitido letras e hífens',
             'action.unique' => 'Ação já existe',
-            'action.max' => 'Ação pode ter no máximo 100 caracteres'
+            'action.max' => 'Ação pode ter no máximo 100 caracteres',
+            'groups.array' => 'Grupos em formato inválido',
+            'groups.exists' => 'Algum grupo não foi encontrado'
         ]);
 
         $request->merge([
                         'active' => $request->has('active')
                     ]);
 
-        $action->update($request->all());
+        DB::beginTransaction();
+
+        try {
+
+            $action->update($request->except('groups'));
+
+            $action->groups()->sync($request->get('groups', []));
+
+        } catch (Exception $e) {
+
+            DB::rollback();
+
+            \Log::info($e->getTraceAsString());
+            \XACL::message('Erro ao atualizar ação', 'danger');
+            //dd($e->getMessage());
+            return redirect()->back()->withInput();
+        }
+
+
+        DB::commit();
 
         \XACL::message('Ação '. $action->action .' atualizada com sucesso', 'success');
 
@@ -76,19 +107,42 @@ class XACLActionsController extends BaseController
                 'regex:/^[-a-zA-Z]+$/',
                 Rule::unique('xacl_actions'),
                 'max:100'
+            ],
+            'groups' => [
+                'array',
+                Rule::exists('xacl_groups', 'id')
             ]
         ],[
             'action.required' => 'A ação é obrigatória',
             'action.regex' => 'Ação só é permitido letras e hífens',
             'action.unique' => 'Ação já existe',
-            'action.max' => 'Ação pode ter no máximo 100 caracteres'
+            'action.max' => 'Ação pode ter no máximo 100 caracteres',
+            'groups.array' => 'Grupos em formato inválido',
+            'groups.exists' => 'Algum grupo não foi encontrado'
         ]);
 
         $request->merge([
                         'active' => $request->has('active')
                     ]);
 
-        $action = Action::create($request->all());
+        DB::beginTransaction();
+
+        try {
+
+            $action = Action::create($request->except('groups'));
+
+            $action->groups()->sync($request->get('groups', []));
+
+        } catch (Exception $e) {
+
+            DB::rollback();
+            \Log::info($e->getTraceAsString());
+            \XACL::message('Erro ao cadastrar ação', 'danger');
+            //dd($e->getMessage());
+            return redirect()->back()->withInput();
+        }
+
+        DB::commit();
 
         \XACL::message('Ação '. $action->name .' cadastrada com sucesso', 'success');
 
@@ -119,7 +173,7 @@ class XACLActionsController extends BaseController
 
             $action->delete();
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
 
             DB::rollBack();
 

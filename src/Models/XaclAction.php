@@ -13,6 +13,6 @@ class XaclAction extends Model
     protected $fillable = ['action', 'description', 'active', 'options'];
 
     public function groups() {
-        return $this->belongsToMany(XaclGroup::class);
+        return $this->belongsToMany(XaclGroup::class, 'xacl_action_group', 'action_id', 'group_id');
     }
 }

@@ -32,9 +32,9 @@ class XaclGroup extends Model
         return $this->belongsToMany(XaclModule::class, 'xacl_group_module', 'group_id', 'module_id');
     }
 
-    public function views()
+    public function actions()
     {
-        return $this->belongsToMany(XaclView::class, 'xacl_group_view', 'group_id', 'view_id');
+        return $this->belongsToMany(XaclAction::class, 'xacl_action_group', 'group_id', 'action_id');
     }
 
 }

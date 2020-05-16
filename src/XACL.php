@@ -39,4 +39,45 @@ class XACL
             'message' => $message
         ]);
     }
+
+
+
+    public static function hasPermission($request) {
+
+
+        $user = \Auth::user();
+
+        $user->load(['groups' => function($query) {
+            $query->with('modules');
+            $query->with('actions');
+        }]);
+
+        $controller_action = $request->route()->getActionName();
+
+        if($user->groups->isNotEmpty()) {
+
+            $groups = $user->groups;
+
+            foreach($groups as $group) {
+                if($group->modules->contains('controller_action', $controller_action)) {
+                    return true;
+                }
+            }
+        }
+
+        if(!\ClaudiusNascimento\XACL\Models\XaclGroup::get()->count()) {
+            $email = $user->{config('xacl.start_email', '')};
+
+            if($user->{config('xacl.user_model.email_field_name')} === config('xacl.start_email')) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static function getRedirectRoute() {
+
+        return config('no-permission-route-name', 'xacl.no.permission');
+    }
 }

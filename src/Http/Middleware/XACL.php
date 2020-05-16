@@ -15,6 +15,9 @@ class XACL
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+
+        return \XACL::hasPermission($request) ?
+                    $next($request) :
+                    redirect()->route(\XACL::getRedirectRoute());
     }
 }
