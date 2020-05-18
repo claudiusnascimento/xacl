@@ -18,6 +18,7 @@ Soon...
 - [ ] Write README
 - [ ] Tests
 - [ ] Css/Layout (include for users that not use the gentelella template)
+- [ ] Make some commands to create groups and actions and attach to the users
  
 ## TO DO
 - [ ] Restricted permissions - in case the user has many groups deny if he has a certain group, or allow if don't has a certain group and so on - provide more control to admin
