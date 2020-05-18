@@ -17,16 +17,12 @@ Soon...
 ## It Remais to be done
 - [ ] Write README
 - [ ] Tests
-- [ ] Enhanced code (SOLID, Bests Practices [, ...])
-- [x] Translate
-- [ ] Code Review
-- [ ] Make blade(@) helpers
 - [ ] Css/Layout (include for users that not use the gentelella template)
  
 ## TO DO
+- [ ] Restricted permissions - in case the user has many groups deny if he has a certain group, or allow if don't has a certain group and so on - provide more control to admin
 - [ ] Accept \_\_invokable method
 - [ ] Accept Closures
-- [ ] Beatify the methods labels when dont exist docs or @xacl pattern
 - [ ] When the route is created but not the method in controller appears blank on view
 - [ ] Fire model events
 

@@ -15,7 +15,7 @@
 
                         @foreach($actions as $action)
 
-                            <div class="box-group clearfix">
+                            <div class="xacl-box clearfix">
                                 <h3>{{ $action->action }}</h3>
                                 <p>{{ empty(trim(strip_tags($action->description))) ? __('No description') : $action->description }}</p>
                                 <div class="div">
@@ -25,10 +25,12 @@
                                 @if($action->groups->isNotEmpty())
 
                                     <div class="action-groups">
-                                        <span class="label-groups">{{ __('Groups') }}: </span>
-                                        @foreach($action->groups as $g)
-                                            <span>{{ $g->name }}</span>&nbsp;
-                                        @endforeach
+                                        <h4 class="label-groups">{{ __('Groups with access to this action') }}: </h4>
+                                        <div class="groups-list">
+                                            @foreach($action->groups as $g)
+                                                <span>{{ $g->name }}</span>&nbsp;
+                                            @endforeach
+                                        </div>
                                     </div>
 
                                 @endif

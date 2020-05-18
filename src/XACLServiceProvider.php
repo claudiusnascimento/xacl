@@ -3,6 +3,7 @@
 namespace ClaudiusNascimento\XACL;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Blade;
 
 class XACLServiceProvider extends ServiceProvider
 {
@@ -45,6 +46,8 @@ class XACLServiceProvider extends ServiceProvider
             // Registering package commands.
             // $this->commands([]);
         }
+
+        $this->configBladeDirectives();
     }
 
     /**
@@ -70,6 +73,31 @@ class XACLServiceProvider extends ServiceProvider
         // Register the main class to use with the facade
         $this->app->singleton('xacl', function () {
             return new XACL;
+        });
+    }
+
+    private function configBladeDirectives()
+    {
+
+        $xaclCan = config('xacl.blade.can_open_tag', 'xaclCanSee');
+        $endXaclCan = config('xacl.blade.can_close_tag', 'endXaclCanSee');
+        $xaclCanNot = config('xacl.blade.can_not_open_tag', 'xaclCanNotSee');
+        $endXaclCanNot = config('xacl.blade.can_not_close_tag', 'endXaclCanNotSee');
+
+        Blade::directive($xaclCan, function ($action) {
+            return "<?php if (xaclCanSee({$action})): ?>";
+        });
+
+        Blade::directive($endXaclCan, function ($action) {
+            return "<?php endif; ?>";
+        });
+
+        Blade::directive($xaclCanNot, function ($action) {
+            return "<?php if (xaclCanNot({$action})): ?>";
+        });
+
+        Blade::directive($endXaclCanNot, function ($action) {
+            return "<?php endif; ?>";
         });
     }
 }

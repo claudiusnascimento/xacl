@@ -19,6 +19,7 @@
     "Store new action": "Cadastrar nova ação",
     "Action name": "Nome da ação",
     "Action description": "Descrição da ação",
+    "Groups with access to this action": "Grupos com acesso a esta ação",
 
 
     "_GROUPS_VIEW_COMMENTS": "",

@@ -15,7 +15,7 @@
 
                         @foreach($groups as $group)
 
-                            <div class="box-group clearfix">
+                            <div class="xacl-box clearfix">
                                 <h3>{{ $group->name }}</h3>
                                 <p>{{ empty(trim(strip_tags($group->description))) ? 'Sem descrição' : $group->description }}</p>
                                 <div class="div">

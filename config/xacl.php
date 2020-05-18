@@ -58,6 +58,16 @@ return [
     ],
 
     /**
+     *  config the blade tags if you wish
+     */
+    'blade' => [
+        'can_open_tag' => 'xaclCanSee',
+        'can_close_tag' => 'endXaclCanSee',
+        'can_not_open_tag' => 'xaclCanNotSee',
+        'can_not_close_tag' => 'endXaclCanNotSee'
+    ],
+
+    /**
      *  code uses the default route if this value is empty
      */
     'no-permission-route-name' => ''
