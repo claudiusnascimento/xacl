@@ -57,14 +57,7 @@ class XACLActionsController extends BaseController
                 'array',
                 Rule::exists('xacl_groups', 'id')
             ]
-        ],[
-            'action.required' => 'A ação é obrigatória',
-            'action.regex' => 'Ação só é permitido letras e hífens',
-            'action.unique' => 'Ação já existe',
-            'action.max' => 'Ação pode ter no máximo 100 caracteres',
-            'groups.array' => 'Grupos em formato inválido',
-            'groups.exists' => 'Algum grupo não foi encontrado'
-        ]);
+        ],$this->getErrorMessages());
 
         $request->merge([
                         'active' => $request->has('active')
@@ -83,7 +76,7 @@ class XACLActionsController extends BaseController
             DB::rollback();
 
             \Log::info($e->getTraceAsString());
-            \XACL::message('Erro ao atualizar ação', 'danger');
+            \XACL::message(__('Error updating action'), 'danger');
             //dd($e->getMessage());
             return redirect()->back()->withInput();
         }
@@ -91,7 +84,9 @@ class XACLActionsController extends BaseController
 
         DB::commit();
 
-        \XACL::message('Ação '. $action->action .' atualizada com sucesso', 'success');
+        \XACL::message(__('Action :name updated with success', [
+            'name' => $action->action
+        ]), 'success');
 
         return redirect()->back();
     }
@@ -112,14 +107,7 @@ class XACLActionsController extends BaseController
                 'array',
                 Rule::exists('xacl_groups', 'id')
             ]
-        ],[
-            'action.required' => 'A ação é obrigatória',
-            'action.regex' => 'Ação só é permitido letras e hífens',
-            'action.unique' => 'Ação já existe',
-            'action.max' => 'Ação pode ter no máximo 100 caracteres',
-            'groups.array' => 'Grupos em formato inválido',
-            'groups.exists' => 'Algum grupo não foi encontrado'
-        ]);
+        ], $this->getErrorMessages());
 
         $request->merge([
                         'active' => $request->has('active')
@@ -137,14 +125,16 @@ class XACLActionsController extends BaseController
 
             DB::rollback();
             \Log::info($e->getTraceAsString());
-            \XACL::message('Erro ao cadastrar ação', 'danger');
+            \XACL::message(__('Error registering action'), 'danger');
             //dd($e->getMessage());
             return redirect()->back()->withInput();
         }
 
         DB::commit();
 
-        \XACL::message('Ação '. $action->name .' cadastrada com sucesso', 'success');
+        \XACL::message(__('Action :name registered with success', [
+            'name' => $action->action
+        ]), 'success');
 
         return redirect()->back();
     }
@@ -158,7 +148,7 @@ class XACLActionsController extends BaseController
 
         if(!$action) {
 
-            \XACL::message('Ação não encontrada', 'info');
+            \XACL::message('Action not found', 'info');
 
             return redirect()->back();
         }
@@ -180,17 +170,30 @@ class XACLActionsController extends BaseController
             \Log::info('XACL::ERROR::DELETING::ACTION');
             \Log::info($e->getTraceAsString());
 
-            \XACL::message('Erro ao deletar ação', 'danger');
+            \XACL::message(__('Error deleting action'), 'danger');
 
             return redirect()->back();
         }
 
         DB::commit();
 
-        \XACL::message('Ação '. $name .' deletada com sucesso', 'success');
+        \XACL::message('Action :name deleted with success', [
+            'name' => $action->action
+        ], 'success');
 
         return redirect()->back();
 
+    }
+
+    private function getErrorMessages() {
+        return [
+            'action.required' => __('Action name is required'),
+            'action.regex' => __('Use just letters and hyphens for action name'),
+            'action.unique' => __('Action already exists'),
+            'action.max' => __('The action must have 100 letters in the maximum'),
+            'groups.array' => __('Invalid format for group'),
+            'groups.exists' => __('Some group was found')
+        ];
     }
 
 }

@@ -46,7 +46,6 @@ class XACLController extends BaseController
 
         DB::beginTransaction();
 
-        $saved = false;
         $count = 0;
 
         try {
@@ -83,7 +82,6 @@ class XACLController extends BaseController
 
                     if($module) {
                         $module->groups()->attach([$group_id]);
-                        $saved = true;
                         $count++;
 
                         $stored[] = $permission;
@@ -95,7 +93,7 @@ class XACLController extends BaseController
         } catch (Exception $e) {
             DB::rollBack();
 
-            \XACL::message('Erro ao salvar as permissões', 'danger');
+            \XACL::message(__('Error saving permissions'), 'danger');
 
             \Log::info($e->getMessage());
 
@@ -103,11 +101,11 @@ class XACLController extends BaseController
         }
 
         // at least 1 was saved
-        if($saved && $count == $countPermissions) {
+        if($count == $countPermissions) {
             DB::commit();
 
             $type = 'success';
-            $message = 'Permissões setadas com sucesso';
+            $message = __('Permissions set successfully');
         } else {
             DB::rollBack();
 
@@ -117,11 +115,8 @@ class XACLController extends BaseController
             \Log::info($count . ' - ' . $countPermissions);
 
             $type = 'info';
-            $message = 'Nenhuma permissão salva';
+            $message = __('No permission saved');
         }
-
-        $type = $saved ? 'success' : 'info';
-        $message = $saved ? 'Permissões setadas com sucesso' : 'Nenhuma permissão salva';
 
         \XACL::message($message, $type);
 

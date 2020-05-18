@@ -1,0 +1,78 @@
+{
+
+    "_COMMONS_COMMENTS": "",
+
+    "No permission": "Sem permissão",
+
+    "Order": "Ordem",
+    "Active": "Ativo",
+    "Inactive": "Inativo",
+    "Save": "Salvar",
+    "Cancel": "Cancelar",
+    "Groups": "Grupos",
+    "No description": "Sem descrição",
+
+    "_ACTIONS_VIEW_COMMENTS": "",
+
+    "Delete action": "Deletar ação",
+    "Edit action": "Edit ação",
+    "Store new action": "Cadastrar nova ação",
+    "Action name": "Nome da ação",
+    "Action description": "Descrição da ação",
+
+
+    "_GROUPS_VIEW_COMMENTS": "",
+
+    "Store new group": "Cadastrar novo grupo",
+    "Delete group": "Deletar grupo",
+    "Edit group": "Edit grupo",
+    "Store new group": "Cadastrar novo grupo",
+    "Group name": "Nome do grupo",
+    "Group description": "Descrição do grupo",
+    "No groups registered": "Nenhum grupo cadastrado",
+    "Register here": "Cadastre aqui",
+
+
+    "_ACTIONS_CONTROLLER_COMMENTS": "",
+
+    "Action name is required": "Nome da ação é obrigatório",
+    "Use only letters and hyphens for action name": "Use apenas letras e hífens para o nome da ação",
+    "Action already exists": "Ação já cadastrada",
+    "The action must have 100 letters in the maximum": "O nome da ação deve ter no máximo 100 letras",
+    "Invalid format for group": "Grupo com formato inválido",
+    "Some group was foun": "Algum grupo não foi encontrado",
+    "Error updating action": "Erro ao atualizar a ação",
+    "Action :name registered with success": "Ação :name cadastrada com sucesso",
+    "Action :name updated with success": "Ação :name atualizada com sucesso",
+    "Action not found": "Ação não encontrada",
+    "Error registering action": "Erro ao cadastrar ação",
+    "Error deleting action": "Erro ao deletar ação",
+
+    "_XACL_INDEX_CONTROLLER_COMMENTS": "",
+
+    "Error saving permissions": "Erro ao salvar as permissões",
+    "Permissions set successfully": "Permissões setadas com sucesso",
+    "No permission saved": "Erro ao salvar as permissões",
+    "Group :name updated with success": "Grupo :name atualizado com sucesso",
+    "Group :name registered with success": "Grupo :name cadastrado com sucesso",
+    "Group not found": "Grupo não encontrado",
+    "Error deleting group": "Erro ao deletar o grupo",
+    "Group :name deleted with success": "Group :name deletado com sucesso",
+
+    "_XACL_USERS_CONTROLLER_COMMENTS": "",
+
+    "Groups in invalid format": "Grupos em formato inválido",
+    "Inexistent groups": "Grupos inexistentes",
+    "User not found": "Usuário não encontrado",
+    "Groups updated with success": "Grupos atualizados com sucesso",
+
+    "Home": "Home",
+    "Index": "Index",
+    "Create": "Criar",
+    "Save": "Salvar",
+    "See": "Ver",
+    "See/Edit": "Ver/Editar",
+    "Save Editing": "Salvar edição",
+    "Delete": "Deletar"
+
+}

@@ -54,7 +54,7 @@
                                                 @endforeach
 
                                                 <td width="{{ $width }}">
-                                                    <button type="submit" class="btn btn-info">Salvar</button>
+                                                    <button type="submit" class="btn btn-info">{{ __('Save') }}</button>
                                                 </td>
                                             </tr>
 

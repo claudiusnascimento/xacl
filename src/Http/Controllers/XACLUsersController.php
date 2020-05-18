@@ -43,20 +43,20 @@ class XACLUsersController extends BaseController
                 Rule::exists('xacl_groups', 'id')
             ]
         ],[
-            'groups.array' => 'Grupos em formato inválido',
-            'groups.exists' => 'Grupo inexistente'
+            'groups.array' => __('Groups in invalid format'),
+            'groups.exists' => __('Inexistent group')
         ]);
 
         $user = $this->getUser($id);
 
         if(!$user) {
-            \XACL::message('Usuário não encontrado', 'danger');
+            \XACL::message(__('User not found'), 'danger');
             return redirect()->back();
         }
 
         $user->groups()->sync($request->get('groups', []));
 
-        \XACL::message('Grupos atualizados com sucesso', 'success');
+        \XACL::message("Groups updated with success", 'success');
 
         return redirect()->back();
     }

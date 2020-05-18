@@ -28,9 +28,9 @@
 
                             @if($groups->isEmpty())
                                 <div class="alert alert-danger">
-                                    Nenhum grupo cadastrado!
+                                    {{ __('No groups registered') }}
                                     <a style="color: #fff;" href="{{ route('xacl.groups') }}">
-                                        <b>Cadastre aqui</b>
+                                        <b>{{ __('Register here') }}</b>
                                     </a>
                                 </div>
                             @endif
@@ -105,7 +105,7 @@
                             @endforeach
 
                             <div class="form-group">
-                                <button type="submit" class="btn btn-success">Salvar</button>
+                                <button type="submit" class="btn btn-success">{{ __('Save') }}</button>
                             </div>
 
                         </form>

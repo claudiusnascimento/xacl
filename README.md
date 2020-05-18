@@ -14,11 +14,24 @@ composer require claudiusnascimento/xacl
 Soon...
 ```
 
+## It Remais to be done
+- [ ] Write README
+- [ ] Tests
+- [ ] Enhanced code (SOLID, Bests Practices [, ...])
+- [x] Translate
+- [ ] Code Review
+- [ ] Make blade(@) helpers
+- [ ] Css/Layout (include for users that not use the gentelella template)
+ 
 ## TO DO
-[ ] Accept \_\_invokable method
-[ ] Accept Closures
-[ ] Beatify the methods labels when dont exist docs or @xacl
-[ ] When the route is created but not the method in controller appears blank on view
+- [ ] Accept \_\_invokable method
+- [ ] Accept Closures
+- [ ] Beatify the methods labels when dont exist docs or @xacl pattern
+- [ ] When the route is created but not the method in controller appears blank on view
+- [ ] Fire model events
+
+## It would be cool if...
+- [ ] Modules and actions have directly relations with user for some overrides
  
 ### Testing
 

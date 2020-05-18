@@ -18,12 +18,13 @@ class XACLServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'xacl');
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->loadRoutesFrom(__DIR__.'/routes.php');
+        $this->loadJSONTranslationsFrom(__DIR__.'/../resources/lang');
 
         $this->registerHelpers();
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/config.php' => config_path('xacl.php'),
+                __DIR__.'/../config/xacl.php' => config_path('xacl.php'),
             ], 'config');
 
             // Publishing the views.
@@ -37,9 +38,9 @@ class XACLServiceProvider extends ServiceProvider
             ], 'assets');
 
             // Publishing the translation files.
-            /*$this->publishes([
+            $this->publishes([
                 __DIR__.'/../resources/lang' => resource_path('lang/vendor/xacl'),
-            ], 'lang');*/
+            ], 'lang');
 
             // Registering package commands.
             // $this->commands([]);
@@ -64,7 +65,7 @@ class XACLServiceProvider extends ServiceProvider
     public function register()
     {
         // Automatically apply the package configuration
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'xacl');
+        $this->mergeConfigFrom(__DIR__.'/../config/xacl.php', 'xacl');
 
         // Register the main class to use with the facade
         $this->app->singleton('xacl', function () {

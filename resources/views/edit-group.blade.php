@@ -12,12 +12,12 @@
                     @include('xacl::messages')
 
                     <div class="text-right">
-                        <a href="{{ route('xacl.groups') }}" class="btn btn-info">Cancelar</a>
+                        <a href="{{ route('xacl.groups') }}" class="btn btn-info">{{ __('Cancel') }}</a>
                     </div>
 
                     <div class="x_body">
 
-                        <h3>Editar grupo</h3>
+                        <h3>{{ __('Edit Group') }}</h3>
 
                         <form
                             action="{{ route('xacl.groups.update', $group->id) }}"
@@ -38,7 +38,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="description">Descrição do grupo</label>
+                                <label for="description">{{ __('Group description') }}</label>
                                 <textarea type="text" name="description" class="form-control">{{ old('description', $group->description) }}</textarea>
                             </div>
 
@@ -49,12 +49,12 @@
 
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="active" {{ old('active', $group->active) ? 'checked' : '' }} value="1"> Ativo
+                                    <input type="checkbox" name="active" {{ old('active', $group->active) ? 'checked' : '' }} value="1"> {{ __('Active') }}
                                 </label>
                             </div>
 
                             <div class="form-group text-right">
-                                <button class="btn btn-success">Salvar</button>
+                                <button class="btn btn-success">{{ __('Save') }}</button>
                             </div>
 
                         </form>

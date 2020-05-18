@@ -12,12 +12,12 @@
                     @include('xacl::messages')
 
                     <div class="text-right">
-                        <a href="{{ route('xacl.actions') }}" class="btn btn-info">Cancelar</a>
+                        <a href="{{ route('xacl.actions') }}" class="btn btn-info">{{ __('Cancel') }}</a>
                     </div>
 
                     <div class="x_body">
 
-                        <h3>Editar ação</h3>
+                        <h3>{{ __('Edit action') }}</h3>
 
                         <form
                             action="{{ route('xacl.actions.update', $action->id) }}"
@@ -30,7 +30,7 @@
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                                     <div class="form-group">
-                                        <label for="action">Nome do ação</label>
+                                        <label for="action">{{ __('Action name') }}</label>
                                         <input type="text" name="action" value="{{ old('name', $action->action) }}" class="form-control">
 
 
@@ -41,30 +41,30 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="description">Descrição da ação</label>
+                                        <label for="description">{{ __('Action description') }}</label>
                                         <textarea type="text" name="description" class="form-control">{{ old('description', $action->description) }}</textarea>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="order">Ordem</label>
+                                        <label for="order">{{ __('Order') }}</label>
                                         <input style="width: 50px;" type="text" name="order" value="{{ old('order', $action->order) }}" class="form-control">
                                     </div>
 
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="active" {{ old('active', $action->active) ? 'checked' : '' }} value="1"> Ativo
+                                            <input type="checkbox" name="active" {{ old('active', $action->active) ? 'checked' : '' }} value="1"> {{ __('Active') }}
                                         </label>
                                     </div>
 
                                     <div class="form-group text-right">
-                                        <button class="btn btn-success">Salvar</button>
+                                        <button class="btn btn-success">{{ __('Save') }}</button>
                                     </div>
 
                                 </div>
 
                                 <div class="col-xs-4">
 
-                                    <h4><b>Grupos</b></h4>
+                                    <h4><b>{{ __('Groups') }}</b></h4>
                                     <ul>
                                         @foreach($groups as $group)
                                             <li>

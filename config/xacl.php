@@ -36,12 +36,12 @@ return [
 
         '__construct' => 'Home',
         'aindex' => 'Index',
-        'create' => 'Criar',
-        'store' => 'Salvar',
-        'show' => 'Ver',
-        'edit' => 'Ver/Editar',
-        'update' => 'Salvar Edição',
-        'destroy' => 'Deletar'
+        'create' => 'Create',
+        'store' => 'Save',
+        'show' => 'See',
+        'edit' => 'See/Edit',
+        'update' => 'Save Editing',
+        'destroy' => 'Delete'
     ],
 
     /**

@@ -19,7 +19,7 @@
                                 <h3>{{ $group->name }}</h3>
                                 <p>{{ empty(trim(strip_tags($group->description))) ? 'Sem descrição' : $group->description }}</p>
                                 <div class="div">
-                                    <h5>{{ $group->active ? 'ATIVADO' : 'DESATIVADO' }}</h5>
+                                    <h5>{{ $group->active ? __('Active') : __('Inactive') }}</h5>
                                 </div>
 
                                 <form
@@ -28,7 +28,7 @@
                                     enctype="multipart/form-data"
                                     method="POST">
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                    <button type="submit" class="btn btn-danger md btn-delete-group">Deletar grupo</button>
+                                    <button type="submit" class="btn btn-danger md btn-delete-group">{{ __('Delete group') }}</button>
                                 </form>
 
                                 <a href="{{ route('xacl.groups.edit', $group->id) }}" class="btn btn-success md">Editar grupo</a>
@@ -52,7 +52,7 @@
 
                     <div class="x_body">
 
-                        <h3>Cadastrar novo grupo</h3>
+                        <h3>{{ __('Store new group') }}</h3>
 
                         <form
                             action="{{ route('xacl.groups.store') }}"
@@ -62,7 +62,7 @@
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                             <div class="form-group">
-                                <label for="name">Nome do grupo</label>
+                                <label for="name">{{ __('Group name') }}</label>
                                 <input type="text" name="name" value="{{ old('name') }}" class="form-control">
 
 
@@ -73,23 +73,23 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="description">Descrição do grupo</label>
+                                <label for="description">{{ __('Group description') }}</label>
                                 <textarea type="text" name="description" class="form-control">{{ old('description') }}</textarea>
                             </div>
 
                             <div class="form-group">
-                                <label for="order">Ordem</label>
+                                <label for="order">{{ __('Order') }}</label>
                                 <input style="width: 50px;" type="text" name="order" value="{{ old('order') }}" class="form-control">
                             </div>
 
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="active" {{ old('active') ? 'checked' : '' }} value="1"> Ativo
+                                    <input type="checkbox" name="active" {{ old('active') ? 'checked' : '' }} value="1"> {{ __('Active') }}
                                 </label>
                             </div>
 
                             <div class="form-group text-right">
-                                <button class="btn btn-success">Salvar</button>
+                                <button class="btn btn-success">{{ __('Save') }}</button>
                             </div>
 
                         </form>

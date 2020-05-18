@@ -40,11 +40,7 @@ class XACLGroupsController extends BaseController
                 Rule::unique('xacl_groups')->ignore($group),
                 'max:100'
             ]
-        ],[
-            'name.required' => 'O nome do grupo é obrigatório',
-            'name.unique' => 'Nome já existe',
-            'name.max' => 'Nome pode ter no máximo 100 caracteres'
-        ]);
+        ], $this->getValidationErrors());
 
         $request->merge([
                         'slug' => \Str::slug($request->get('name')),
@@ -53,7 +49,9 @@ class XACLGroupsController extends BaseController
 
         $group->update($request->all());
 
-        \XACL::message('Grupo '. $group->name .' atualizado com sucesso', 'success');
+        \XACL::message(__('Group :name updated with success',[
+            'name' => $group->name
+        ]), 'success');
 
         return redirect()->back();
     }
@@ -65,11 +63,7 @@ class XACLGroupsController extends BaseController
 
         $request->validateWithBag('group', [
             'name' => ['required', 'unique:xacl_groups', 'max:100']
-        ],[
-            'name.required' => 'O nome do grupo é obrigatório',
-            'name.unique' => 'Nome já existe',
-            'name.max' => 'Nome pode ter no máximo 100 caracteres'
-        ]);
+        ], $this->getValidationErrors());
 
         $request->merge([
                             'slug' => \Str::slug($request->get('name')),
@@ -78,7 +72,9 @@ class XACLGroupsController extends BaseController
 
         $group = Group::create($request->all());
 
-        \XACL::message('Grupo '. $group->name .' cadastrado com sucesso', 'success');
+        \XACL::message('Group :name registered with success', [
+            'name' => $group->name
+        ], 'success');
 
         return redirect()->back();
     }
@@ -92,7 +88,7 @@ class XACLGroupsController extends BaseController
 
         if(!$group) {
 
-            \XACL::message('Grupo não encontrado', 'info');
+            \XACL::message('Group not found', 'info');
 
             return redirect()->back();
         }
@@ -114,17 +110,27 @@ class XACLGroupsController extends BaseController
             \Log::info('XACL::ERROR::DELETING::GROUP');
             \Log::info($e->getTraceAsString());
 
-            \XACL::message('Erro ao deletar grupo', 'danger');
+            \XACL::message('Error deleting group', 'danger');
 
             return redirect()->back();
         }
 
         DB::commit();
 
-        \XACL::message('Grupo '. $name .' deletado com sucesso', 'success');
+        \XACL::message('Group :name deleted with success', [
+            'name' => $group->name
+        ], 'success');
 
         return redirect()->back();
 
+    }
+
+    private function getValidationErrors() {
+        return [
+            'name.required' => 'Group name is required',
+            'name.unique' => 'Group name already exists',
+            'name.max' => 'Group name must have 100 letters in the maximum'
+        ];
     }
 
 }

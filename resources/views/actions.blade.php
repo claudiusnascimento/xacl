@@ -17,15 +17,15 @@
 
                             <div class="box-group clearfix">
                                 <h3>{{ $action->action }}</h3>
-                                <p>{{ empty(trim(strip_tags($action->description))) ? 'Sem descrição' : $action->description }}</p>
+                                <p>{{ empty(trim(strip_tags($action->description))) ? __('No description') : $action->description }}</p>
                                 <div class="div">
-                                    <h5>{{ $action->active ? 'ATIVADO' : 'DESATIVADO' }}</h5>
+                                    <h5>{{ $action->active ? __('Active') : __('Inactive') }}</h5>
                                 </div>
 
                                 @if($action->groups->isNotEmpty())
 
                                     <div class="action-groups">
-                                        <span class="label-groups">Grupos: </span>
+                                        <span class="label-groups">{{ __('Groups') }}: </span>
                                         @foreach($action->groups as $g)
                                             <span>{{ $g->name }}</span>&nbsp;
                                         @endforeach
@@ -39,10 +39,10 @@
                                     enctype="multipart/form-data"
                                     method="POST">
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                    <button type="submit" class="btn btn-danger md btn-delete-action">Deletar ação</button>
+                                    <button type="submit" class="btn btn-danger md btn-delete-action">{{ __('Delete action') }}</button>
                                 </form>
 
-                                <a href="{{ route('xacl.actions.edit', $action->id) }}" class="btn btn-success md">Editar ação</a>
+                                <a href="{{ route('xacl.actions.edit', $action->id) }}" class="btn btn-success md">{{ __('Edit action') }}</a>
                                 <br>
                             </div>
 
@@ -63,7 +63,7 @@
 
                     <div class="x_body">
 
-                        <h3>Cadastrar nova ação</h3>
+                        <h3>{{ __('Store new action') }}</h3>
 
                         <form
                             action="{{ route('xacl.actions.store') }}"
@@ -75,7 +75,7 @@
                             <div class="row">
                                 <div class="col-sm-8">
                                     <div class="form-group">
-                                        <label for="action">Nome da ação</label>
+                                        <label for="action">{{ __('Action name') }}</label>
                                         <input type="text" name="action" value="{{ old('action') }}" class="form-control">
 
                                         @if($errors->action->has('action'))
@@ -85,30 +85,30 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="description">Descrição da ação</label>
+                                        <label for="description">{{ __('Action description') }}</label>
                                         <textarea type="text" name="description" class="form-control">{{ old('description') }}</textarea>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="order">Ordem</label>
+                                        <label for="order">{{ __('Order') }}</label>
                                         <input style="width: 50px;" type="text" name="order" value="{{ old('order') }}" class="form-control">
                                     </div>
 
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="active" {{ old('active') ? 'checked' : '' }} value="1"> Ativo
+                                            <input type="checkbox" name="active" {{ old('active') ? 'checked' : '' }} value="1"> {{ __('Active') }}
                                         </label>
                                     </div>
 
                                     <div class="form-group text-right">
-                                        <button class="btn btn-success">Salvar</button>
+                                        <button class="btn btn-success">{{ __('Save') }}</button>
                                     </div>
 
                                 </div>
 
                                 <div class="col-xs-4">
 
-                                    <h4><b>Grupos</b></h4>
+                                    <h4><b>{{ __('Groups') }}</b></h4>
 
                                     <ul>
                                         @foreach($groups as $group)

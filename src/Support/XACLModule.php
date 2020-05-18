@@ -132,7 +132,7 @@ class XACLModule
 
         if(array_key_exists($method, $defaults)) {
 
-            return $defaults[$method];
+            return __($defaults[$method]);
         }
 
         return $method;
