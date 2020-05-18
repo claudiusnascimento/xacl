@@ -1,0 +1,53 @@
+/* config */
+
+.xacl-form table, .xacl-form table th {
+    text-align: center;
+}
+
+.btn-select-all-xacl {
+    padding: 6px;
+    height: 20px;
+}
+
+.module-item h4 {
+    margin-bottom: 0;
+}
+
+.module-item h4 + small {
+    color: #fff;
+}
+
+.xacl-box {
+    border: 1px solid #d4d4d4;
+    padding: 15px;
+    -webkit-box-shadow: 0px 0px 16px -4px #000000;
+    box-shadow: 0px 0px 16px -4px #b7b7b7;
+    margin-bottom: 30px;
+    background: rgb(255,255,255);
+background: linear-gradient(156deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 35%, rgba(226,245,255,1) 100%);
+}
+
+.xacl-users-table td {
+    vertical-align: middle !important;
+}
+
+.action-groups {
+    padding: 20px;
+    border-top: 1px solid #e6e6e6;
+    border-bottom: 1px solid #e6e6e6;
+    margin-bottom: 10px;
+}
+
+span.label-groups {
+    background: #47a720 !important;
+}
+
+.action-groups span {
+    display: inline-block;
+    padding: 5px;
+    background: #857fa0;
+    border-radius: 5px;
+    margin: 0 10px 10px;
+    color: #fff;
+    font-style: italic;
+}
