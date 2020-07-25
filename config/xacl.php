@@ -2,7 +2,7 @@
 
 return [
 
-    // if theres no groups the package use this e-mail to given total permission
+    // if there is no groups, the package use this e-mail to given total permission
     'start_email' => 'cau@claudiusnascimento.com',
 
     'routes' => [
@@ -30,12 +30,12 @@ return [
     ],
 
     /**
-     *  used is case you dont use the docs methods
+     *  used this, in case you dont use the docs methods
      */
     'docs_defaults' => [
 
         '__construct' => 'Home',
-        'aindex' => 'Index',
+        'index' => 'Index',
         'create' => 'Create',
         'store' => 'Save',
         'show' => 'See',
@@ -50,7 +50,7 @@ return [
     'doc_start_pattern' => '@xacl',
 
     /**
-     *  template and sectio to use with the package views
+     *  template and section to use with the package views in admin pages
      */
     'view' => [
         'extends' => 'gentelelladashboard::layouts.main',
@@ -70,6 +70,20 @@ return [
     /**
      *  code uses the default route if this value is empty
      */
-    'no-permission-route-name' => ''
+    'no-permission-route-name' => '',
+
+    /**
+     *  routes to exclude the acl verification
+     */
+    'excluded_routes' => [
+        'admin/logout'
+    ],
+
+    /**
+     *  routes names to exclude the acl verification
+     */
+    'excluded_routes_names' => [
+        //'admin.logout'
+    ]
 
 ];

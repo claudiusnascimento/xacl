@@ -10,9 +10,18 @@ composer require claudiusnascimento/xacl
 
 ## Usage
 
+Add the XACLServiceProvider in your providers array
+
 ``` php
-Soon...
+ClaudiusNascimento\XACL\XACLServiceProvider::class
 ```
+
+Add the XACLFacade in your alias array
+
+``` php
+ClaudiusNascimento\XACL\XACLFacade::class
+```
+
 
 ## It Remais to be done
 - [ ] Write README
@@ -33,7 +42,7 @@ Soon...
 ### Testing
 
 ``` bash
-composer test
+soon...
 ```
 
 ### Changelog
