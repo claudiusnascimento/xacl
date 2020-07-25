@@ -40,10 +40,37 @@ class XACL
         ]);
     }
 
+    private static function isExcludedRoute($request) {
 
+        $excluded_routes = collect(config('xacl.excluded_routes'));
+
+        foreach($excluded_routes as $path) {
+            if($request->is($path)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static function isExcludedRouteName($request) {
+
+        $excluded_routes_names = collect(config('xacl.excluded_routes_names'));
+
+        foreach($excluded_routes_names as $name) {
+            if($request->routeIs($name)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     public static function hasPermission($request) {
 
+        if(self::isExcludedRoute($request) || self::isExcludedRouteName($request)) {
+            return true;
+        }
 
         $user = \Auth::user();
 
